@@ -12,7 +12,7 @@
                 Sign Up
             </div>
             <div class="panel-body">
-                <form>
+                <form method="POST">
                     <div class="form-group">
                         <label>Username</label>
                         <input type="text" class="form-control" name="username" />
