@@ -15,10 +15,10 @@
 <div class="col-lg-6 login-panel">
     <div class="panel panel-default">
         <div class="panel-heading">
-            Sign In
+            Sign In <?php if (isset($error)){echo "<b>".$error."<b>";}?>
         </div>
-        <div class="panel-body">
-            <form>
+        <div class="panel-body" action="/">
+            <form method="post">
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" name="username" class="form-control" />
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary form-control" value="Sign In" />
+                    <input type="submit" name="login" class="btn btn-primary form-control" value="Sign In" />
                 </div>
                 <p class="text-center">
                     <a href="/signup">Sign Up</a>

@@ -9,7 +9,7 @@
     <div class="col-lg-6 col-lg-offset-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Sign Up
+                Sign Up <?php if (isset($error)) {echo "<b>".$error."</b>";}?>
             </div>
             <div class="panel-body">
                 <form method="POST">

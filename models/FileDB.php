@@ -23,7 +23,6 @@ class FileDB {
                 }
             }
         }
-
         return false;
     }
 

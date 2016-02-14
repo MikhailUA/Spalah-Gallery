@@ -9,7 +9,8 @@ class Router {
         '/^\/user\/([A-Za-z0-9]+)$/' => 'GalleryController',
         '/^\/signup$/' => 'RegisterController',
         '/^\/photo$/' => 'AddPhotoController',
-        '/^\/user\/([A-Za-z0-9]+)\/photo\/(\d+)/' => 'PhotoController'
+        '/^\/user\/([A-Za-z0-9]+)\/photo\/(\d+)/' => 'PhotoController',
+        '/^\/logout$/' => 'IndexController'
     ];
 
     public function __construct($requestUri) {
