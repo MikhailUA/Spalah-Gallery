@@ -6,7 +6,7 @@ class RegisterController extends BaseController {
         if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['password-confirm'])) {
             if($_POST['password'] == $_POST['password-confirm']) {
                 $fdb = new FileDB(__DIR__ . '/../db');
-                if (!$fdb->findUser($_POST['username'],$_POST['password'])){
+                if (!$fdb->findUsername($_POST['username'])){
                     $fdb->addUser($_POST['username'], $_POST['password']);
                     UserSession::getInstance()->login($_POST['username']);
                     Router::redirect('/');

@@ -26,6 +26,20 @@ class FileDB {
         return false;
     }
 
+    public function findUsername($username) {
+        $f = fopen($this->path . DIRECTORY_SEPARATOR . FileDB::USERS_FILE, 'r');
+        while(!feof($f)) {
+            if($str = fgets($f)) {
+                if($json = json_decode($str, true)) {
+                    if($json['username'] == $username) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public function addUser($username, $password) {
         $f = fopen($this->path . DIRECTORY_SEPARATOR . self::USERS_FILE, 'a+');
         fwrite($f, json_encode([
