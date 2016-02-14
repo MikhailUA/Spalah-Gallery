@@ -17,7 +17,7 @@ class IndexController extends BaseController {
                 UserSession::getInstance()->login($_POST['username']);
                 Router::redirect('/user/' . UserSession::getInstance()->username);
             }else{
-                $error = "Failed";
+                $error = "Failed: Login and password not valid";
             }
 
         }

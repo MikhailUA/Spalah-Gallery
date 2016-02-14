@@ -61,6 +61,48 @@ class FileDB {
         fclose($f);
     }
 
+    public function getPhoto($username,$photoId){
+        $path=$this->path.DIRECTORY_SEPARATOR.self::PREFIX.$username.'json';
+        if(!file_exists($path)){
+            return false;
+        }
+        $f = fopen($path,'r');
+        while(!feof($f)){
+            if ($str=fgets($f)){
+                if ($json=json_decode($str,true)){
+                    if ($photoId==$json['id']){
+                        return [
+                            'photoURI' => $json['photoURI'],
+                            'description' => $json['description'],
+                        ];
+                    }
+                }
+            }
+        }
+    }
+
+    public function getPhotos($username,$page,$perPage)
+    {
+        $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . 'json';
+        if (!file_exists($path)) {
+            return false;
+        }
+        $f = fopen($path, 'r');
+
+        $photoCount=0;
+        while (!feof($f)) {
+            if ($str=fgets($f)){
+                $photoCount++;
+                if ($photoCount>=($page*$perPage-$perPage+1) && $photoCount<=($page*$perPage)){
+                    if ($str=json_decode($str,true)){
+                        $photosToDisplay[]=$str;
+                    }
+                }
+            }
+        }
+        return $photosToDisplay;
+    }
+
     public function deletePhoto($username, $id) {
         $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . '.json';
         if(!file_exists($path)) {
