@@ -5,7 +5,7 @@ class FileDB {
     const USERS_FILE = 'usersFile.json';
     const PREFIX = 'photos_';
 
-    public function __construct($path) {
+    public function __construct($path = './db') {
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
@@ -61,12 +61,13 @@ class FileDB {
                 'username' => $username,
                 'photoURI' => $photoURI,
                 'description' => $description,
+                'date' => date('Y-d-m H:i:s'),
             ]) . PHP_EOL);
         fclose($f);
     }
 
     public function getPhoto($username, $photoId) {
-        $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . 'json';
+        $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . '.json';
         if (!file_exists($path)) {
             return false;
         }
@@ -86,7 +87,7 @@ class FileDB {
     }
 
     public function getPhotos($username, $page, $perPage) {
-        $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . 'json';
+        $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . '.json';
         if (!file_exists($path)) {
             return false;
         }

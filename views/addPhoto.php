@@ -5,7 +5,7 @@
             Add Photo
         </div>
         <div class="panel-body">
-            <form>
+            <form enctype="multipart/form-data" method="POST" action="">
                 <div class="form-group">
                     <label>Photo</label>
                     <input type="file" class="form-control" name="photo" />
