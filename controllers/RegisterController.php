@@ -3,6 +3,10 @@
 class RegisterController extends BaseController {
     public function execute($arguments = []) {
 
+        if (!UserSession::getInstance()->isGuest) {
+            Router::redirect('/user/' . UserSession::getInstance()->username);
+        }
+
         if (
             isset($_POST['username']) &&
             isset($_POST['password']) &&
