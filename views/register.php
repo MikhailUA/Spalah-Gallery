@@ -9,13 +9,18 @@
     <div class="col-lg-6 col-lg-offset-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Sign Up <?php if (isset($error)) {echo "<b>".$error."</b>";}?>
+                Sign Up
             </div>
             <div class="panel-body">
+                <?php if (isset($error)):?>
+                <div class="alert alert-danger">
+                    <?php echo $error; ?>
+                </div>
+                <?php endif; ?>
                 <form method="POST">
                     <div class="form-group">
                         <label>Username</label>
-                        <input type="text" class="form-control" name="username" />
+                        <input type="text" class="form-control" name="username" value="<?php echo isset($_POST['username']) ? $_POST['username']: '' ?>" />
                     </div>
 
                     <div class="form-group">

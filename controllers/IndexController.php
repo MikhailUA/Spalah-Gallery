@@ -2,24 +2,29 @@
 
 class IndexController extends BaseController {
     public function execute($arguments = []) {
-        if ($_SERVER['REQUEST_URI']=='/logout'){
-            UserSession::getInstance()->logout();
-            Router::redirect('/');
-        }
 
-        if(!UserSession::getInstance()->isGuest) {
+        if (!UserSession::getInstance()->isGuest) {
             Router::redirect('/user/' . UserSession::getInstance()->username);
         }
 
-        if (isset($_POST['username']) && isset($_POST['password'])) {
+        if (
+            isset($_POST['username']) &&
+            isset($_POST['password']) &&
+            !empty($_POST['username']) &&
+            !empty($_POST['password'])
+        ) {
             $fdb = new FileDB(__DIR__ . '/../db');
             if ($fdb->findUser($_POST['username'], $_POST['password'])) {
                 UserSession::getInstance()->login($_POST['username']);
                 Router::redirect('/user/' . UserSession::getInstance()->username);
-            }else{
-                $error = "Failed: Login and password not valid";
+            } else {
+                $error = "Failed: Login and password not valid.";
             }
-
+        } else if(
+            isset($_POST['username']) &&
+            isset($_POST['password'])
+        ) {
+            $error = "Failed: All fields are required.";
         }
 
         require_once 'views/parts/header.php';

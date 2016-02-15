@@ -4,8 +4,9 @@ class FileDB {
     private $path;
     const USERS_FILE = 'usersFile.json';
     const PREFIX = 'photos_';
+
     public function __construct($path) {
-        if(!file_exists($path)) {
+        if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
 
@@ -13,26 +14,29 @@ class FileDB {
     }
 
     public function findUser($username, $password) {
-        $f = fopen($this->path . DIRECTORY_SEPARATOR . FileDB::USERS_FILE, 'r');
-        while(!feof($f)) {
-            if($str = fgets($f)) {
-                if($json = json_decode($str, true)) {
-                    if($json['username'] == $username && $json['password'] == sha1($password)) {
-                        return true;
+        if ($f = fopen($this->path . DIRECTORY_SEPARATOR . FileDB::USERS_FILE, 'r')) {
+            while (!feof($f)) {
+                if ($str = fgets($f)) {
+                    if ($json = json_decode($str, true)) {
+                        if ($json['username'] == $username && $json['password'] == sha1($password)) {
+                            return true;
+                        }
                     }
                 }
             }
         }
+
         return false;
     }
 
     public function findUsername($username) {
-        $f = fopen($this->path . DIRECTORY_SEPARATOR . FileDB::USERS_FILE, 'r');
-        while(!feof($f)) {
-            if($str = fgets($f)) {
-                if($json = json_decode($str, true)) {
-                    if($json['username'] == $username) {
-                        return true;
+        if($f = fopen($this->path . DIRECTORY_SEPARATOR . FileDB::USERS_FILE, 'r')) {
+            while (!feof($f)) {
+                if ($str = fgets($f)) {
+                    if ($json = json_decode($str, true)) {
+                        if ($json['username'] == $username) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -61,16 +65,16 @@ class FileDB {
         fclose($f);
     }
 
-    public function getPhoto($username,$photoId){
-        $path=$this->path.DIRECTORY_SEPARATOR.self::PREFIX.$username.'json';
-        if(!file_exists($path)){
+    public function getPhoto($username, $photoId) {
+        $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . 'json';
+        if (!file_exists($path)) {
             return false;
         }
-        $f = fopen($path,'r');
-        while(!feof($f)){
-            if ($str=fgets($f)){
-                if ($json=json_decode($str,true)){
-                    if ($photoId==$json['id']){
+        $f = fopen($path, 'r');
+        while (!feof($f)) {
+            if ($str = fgets($f)) {
+                if ($json = json_decode($str, true)) {
+                    if ($photoId == $json['id']) {
                         return [
                             'photoURI' => $json['photoURI'],
                             'description' => $json['description'],
@@ -81,21 +85,20 @@ class FileDB {
         }
     }
 
-    public function getPhotos($username,$page,$perPage)
-    {
+    public function getPhotos($username, $page, $perPage) {
         $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . 'json';
         if (!file_exists($path)) {
             return false;
         }
         $f = fopen($path, 'r');
 
-        $photoCount=0;
+        $photoCount = 0;
         while (!feof($f)) {
-            if ($str=fgets($f)){
+            if ($str = fgets($f)) {
                 $photoCount++;
-                if ($photoCount>=($page*$perPage-$perPage+1) && $photoCount<=($page*$perPage)){
-                    if ($str=json_decode($str,true)){
-                        $photosToDisplay[]=$str;
+                if ($photoCount >= ($page * $perPage - $perPage + 1) && $photoCount <= ($page * $perPage)) {
+                    if ($str = json_decode($str, true)) {
+                        $photosToDisplay[] = $str;
                     }
                 }
             }
@@ -105,18 +108,18 @@ class FileDB {
 
     public function deletePhoto($username, $id) {
         $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . '.json';
-        if(!file_exists($path)) {
+        if (!file_exists($path)) {
             return false;
         }
 
-        $f = fopen($path , 'r');
+        $f = fopen($path, 'r');
         $tFile = tempnam($this->path, 'temp');
         $t = fopen($tFile, 'a+');
 
-        while(!feof($f)) {
-            if($str = fgets($f)) {
-                if($json = json_decode($str, true)) {
-                    if($id != $json['id']) {
+        while (!feof($f)) {
+            if ($str = fgets($f)) {
+                if ($json = json_decode($str, true)) {
+                    if ($id != $json['id']) {
                         fwrite($t, $str . PHP_EOL);
                     }
                 }

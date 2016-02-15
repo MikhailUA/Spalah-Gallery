@@ -10,7 +10,6 @@ class Router {
         '/^\/signup$/' => 'RegisterController',
         '/^\/photo$/' => 'AddPhotoController',
         '/^\/user\/([A-Za-z0-9]+)\/photo\/(\d+)/' => 'PhotoController',
-        '/^\/logout$/' => 'IndexController'
     ];
 
     public function __construct($requestUri) {
@@ -25,12 +24,32 @@ class Router {
                     $controllerPath = 'controllers/' . $value . '.php';
                     if(file_exists($controllerPath)) {
                         require_once 'controllers/' . $value . '.php';
+                    } else {
+                        return false;
                     }
                 }
 
                 $controller = new $value();
                 return $controller->execute($matches);
             }
+        }
+
+        $matches = [];
+        if(preg_match('/^\/(.+)/', $this->uri, $matches)) {
+
+            $matches = explode('/', $matches[1]);
+            $controller = ucfirst($matches[0]) . 'Controller';
+            if(!class_exists($controller)) {
+                $controllerPath = 'controllers/' . $controller . '.php';
+                if(file_exists($controllerPath)) {
+                    require_once 'controllers/' . $controller . '.php';
+                } else {
+                    return false;
+                }
+            }
+
+            $controller = new $controller();
+            return $controller->execute($matches);
         }
 
         return false;

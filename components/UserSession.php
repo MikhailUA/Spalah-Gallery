@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class UserSession
+ * @property bool isGuest
+ * @property string username
+ */
 class UserSession {
 
     private $isGuest = true;
