@@ -61,7 +61,7 @@ class FileDB {
                 'username' => $username,
                 'photoURI' => $photoURI,
                 'description' => $description,
-                'date' => date('Y-d-m H:i:s'),
+                'date' => date('Y-m-d H:i:s'),
             ]) . PHP_EOL);
         fclose($f);
     }
