@@ -5,34 +5,39 @@
  * @property bool isGuest
  * @property string username
  */
-class UserSession {
+class UserSession
+{
 
     private $isGuest = true;
     private $username = null;
     private static $instance;
 
-    private function __construct() {
+    private function __construct()
+    {
         session_start();
         $this->isGuest = isset($_SESSION['isGuest']) ? $_SESSION['isGuest'] : true;
         $this->username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
     }
 
-    public static function getInstance() {
-        if(!self::$instance) {
+    public static function getInstance()
+    {
+        if (!self::$instance) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
-    public function __get($name) {
-        if($name == 'isGuest') {
+    public function __get($name)
+    {
+        if ($name == 'isGuest') {
             return $this->isGuest;
-        } else if($name == 'username') {
+        } else if ($name == 'username') {
             return $this->username;
         }
     }
 
-    public function login($username) {
+    public function login($username)
+    {
 
         $this->username = $username;
         $this->isGuest = false;
@@ -41,8 +46,9 @@ class UserSession {
         $_SESSION['username'] = $this->username;
 
     }
-    
-    public function logout() {
+
+    public function logout()
+    {
         $this->username = null;
         $this->isGuest = true;
 

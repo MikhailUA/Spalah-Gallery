@@ -1,11 +1,13 @@
 <?php
 
-class Picture {
-    public static function uploadFile($tmpPath, $fileName, $username) {
+class Picture
+{
+    public static function uploadFile($tmpPath, $fileName, $username)
+    {
         $pictureDir = __DIR__ . '/../pictures';
         $usernameDir = $pictureDir . '/' . $username;
 
-        if(!file_exists($usernameDir)) {
+        if (!file_exists($usernameDir)) {
             mkdir($usernameDir);
         }
 
@@ -18,4 +20,12 @@ class Picture {
 
         return $fileName;
     }
+
+    public static function formatDate($dateStr)
+    {
+        $date = new DateTime($dateStr);
+        return $date->format('d.m.Y H:i');
+
+    }
+
 }

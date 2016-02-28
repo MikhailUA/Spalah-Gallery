@@ -4,14 +4,19 @@ class GalleryController extends BaseController
 {
     public function execute($arguments = [])
     {
-        if(UserSession::getInstance()->isGuest) {
+        if (UserSession::getInstance()->isGuest) {
             Router::redirect('/');
         }
 
         $db = new FileDB();
-        $photos = $db->getPhotos(UserSession::getInstance()->username, 1, 10) ?: [];
+
         $username = UserSession::getInstance()->username;
 
+        $photosCount = $db->getPhotosCount($username);
+        $perPage = 2;
+        $page = $arguments[2]; // номер страницы для отображения
+
+        $photos = $db->getPhotos($username, $page, $perPage) ?: [];
 
         require_once 'views/parts/header.php';
 

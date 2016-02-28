@@ -1,7 +1,9 @@
 <?php
 
-class RegisterController extends BaseController {
-    public function execute($arguments = []) {
+class RegisterController extends BaseController
+{
+    public function execute($arguments = [])
+    {
 
         if (
             isset($_POST['username']) &&
@@ -23,7 +25,7 @@ class RegisterController extends BaseController {
             } else {
                 $error = "Failed: Password does not match.";
             }
-        } else if(
+        } else if (
             isset($_POST['username']) &&
             isset($_POST['password']) &&
             isset($_POST['password-confirm'])

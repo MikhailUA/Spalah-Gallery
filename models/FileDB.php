@@ -1,11 +1,13 @@
 <?php
 
-class FileDB {
+class FileDB
+{
     private $path;
     const USERS_FILE = 'usersFile.json';
     const PREFIX = 'photos_';
 
-    public function __construct($path = './db') {
+    public function __construct($path = './db')
+    {
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
@@ -13,7 +15,8 @@ class FileDB {
         $this->path = $path;
     }
 
-    public function findUser($username, $password) {
+    public function findUser($username, $password)
+    {
         if ($f = fopen($this->path . DIRECTORY_SEPARATOR . FileDB::USERS_FILE, 'r')) {
             while (!feof($f)) {
                 if ($str = fgets($f)) {
@@ -29,8 +32,9 @@ class FileDB {
         return false;
     }
 
-    public function findUsername($username) {
-        if($f = fopen($this->path . DIRECTORY_SEPARATOR . FileDB::USERS_FILE, 'r')) {
+    public function findUsername($username)
+    {
+        if ($f = fopen($this->path . DIRECTORY_SEPARATOR . FileDB::USERS_FILE, 'r')) {
             while (!feof($f)) {
                 if ($str = fgets($f)) {
                     if ($json = json_decode($str, true)) {
@@ -44,7 +48,8 @@ class FileDB {
         return false;
     }
 
-    public function addUser($username, $password) {
+    public function addUser($username, $password)
+    {
         $f = fopen($this->path . DIRECTORY_SEPARATOR . self::USERS_FILE, 'a+');
         fwrite($f, json_encode([
                 'id' => time(),
@@ -54,7 +59,8 @@ class FileDB {
         fclose($f);
     }
 
-    public function addPhoto($username, $photoURI, $description) {
+    public function addPhoto($username, $photoURI, $description)
+    {
         $f = fopen($this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . '.json', 'a+');
         fwrite($f, json_encode([
                 'id' => time(),
@@ -66,7 +72,8 @@ class FileDB {
         fclose($f);
     }
 
-    public function getPhoto($username, $photoId) {
+    public function getPhoto($username, $photoId)
+    {
         $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . '.json';
         if (!file_exists($path)) {
             return false;
@@ -76,6 +83,7 @@ class FileDB {
             if ($str = fgets($f)) {
                 if ($json = json_decode($str, true)) {
                     if ($photoId == $json['id']) {
+                        $_SESSION['photoId'] = $json['id'];
                         return [
                             'photoURI' => $json['photoURI'],
                             'description' => $json['description'],
@@ -86,7 +94,8 @@ class FileDB {
         }
     }
 
-    public function getPhotos($username, $page, $perPage) {
+    public function getPhotos($username, $page, $perPage)
+    {
         $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . '.json';
         if (!file_exists($path)) {
             return false;
@@ -94,6 +103,7 @@ class FileDB {
         $f = fopen($path, 'r');
 
         $photoCount = 0;
+        $photosToDisplay = [];
         while (!feof($f)) {
             if ($str = fgets($f)) {
                 $photoCount++;
@@ -107,7 +117,8 @@ class FileDB {
         return $photosToDisplay;
     }
 
-    public function deletePhoto($username, $id) {
+    public function deletePhoto($username, $id)
+    {
         $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . '.json';
         if (!file_exists($path)) {
             return false;
@@ -121,7 +132,9 @@ class FileDB {
             if ($str = fgets($f)) {
                 if ($json = json_decode($str, true)) {
                     if ($id != $json['id']) {
-                        fwrite($t, $str . PHP_EOL);
+                        fwrite($t, $str);
+                    } else {
+                        $filename = $json['photoURI'];
                     }
                 }
             }
@@ -131,6 +144,38 @@ class FileDB {
         fclose($f);
 
         rename($tFile, $path);
+
+        // удаление файла с диска
+
+        $filePath = "./pictures/" . $username . "/" . $filename;
+        unlink($filePath);
+
         return true;
+    }
+
+    public function getPhotosCount($username)
+    {
+        $path = $this->path . DIRECTORY_SEPARATOR . self::PREFIX . $username . '.json';
+        if (!file_exists($path)) {
+            return false;
+        }
+        $f = fopen($path, 'r');
+
+        $photoCount = 0;
+
+        while (!feof($f)) {
+            if ($str = fgets($f)) {
+                $photoCount++;
+            }
+        }
+        return $photoCount;
+    }
+
+    public function pagination($photosCount, $perPage)
+    {
+        $pageCount = ceil($photosCount / $perPage);
+        for ($i = 1; $i <= $pageCount; $i++) {
+            echo "<li><a href=\"$i\">$i</a></li>";
+        }
     }
 }
