@@ -1,20 +1,21 @@
 <div class="col-lg-6 col-lg-offset-3">
 
     <div class="form-group">
-        <a href="/user/michael" class="btn btn-primary">Back to Gallery</a>
-        <a href="" class="btn btn-danger pull-right">Delete Photo</a>
+        <a href="/user/<?php echo $username; ?>" class="btn btn-primary">Back to Gallery</a>
+        <a href="/deletePhoto/<?php echo $photo['photoURI']; ?>" class="btn btn-danger pull-right">Delete Photo</a>
+
         <div class="clearfix"></div>
     </div>
 
     <div class="photo">
-        <a href="/user/michael/photo/123456"><img src="/pictures/michael/1.jpg" /></a>
-
+        <a href="/user/<?php echo $username; ?>/photo/<?php echo $photo['photoURI'] ?> ">
+            <img src="/pictures/<?php echo $username; ?>/<?php echo $photo['photoURI'] ?>"/></a>
 
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <?php echo $photo['description'] ?>
         </p>
 
-        <hr />
+        <hr/>
     </div>
 
 </div>

@@ -1,52 +1,49 @@
 <div class="col-lg-6 col-lg-offset-3">
 
     <ul class="nav nav-pills gallery-nav">
-        <li role="presentation" class="active"><a href="#"><?php echo UserSession::getInstance()->username;?></a></li>
+        <li role="presentation" class="active"><a href="#"><?php echo UserSession::getInstance()->username; ?></a></li>
         <li role="presentation"><a href="/photo">Add Photo</a></li>
         <li role="presentation"><a href="/logout">Log Out</a></li>
     </ul>
 
     <div class="photos">
 
-        <div class="photo">
-            <a href="/user/michael/photo/123456"><img src="/pictures/michael/1.jpg" /></a>
+        <?php foreach ($photos as $photo): ?>
 
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
+            <div class="photo">
+                <!--<a href="/pictures/<?php /*echo $username */ ?>/<?php /*echo $photo['photoURI'] */ ?>">-->
+                <a href="/user/<?php echo $username ?>/photo/<?php echo $photo['photoURI'] ?>">
+                    <img src="/pictures/<?php echo $username ?>/<?php echo $photo['photoURI'] ?>"/></a>
 
-            <hr />
-        </div>
+                <p>
+                    <?php echo Picture::formatDate($photo['date']) ?>
+                </p>
 
-        <div class="photo">
-            <a href="/user/michael/photo/123456"><img src="/pictures/michael/2.jpg" /></a>
+                <p>
+                    <?php echo $photo['description']; ?>
+                </p>
 
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
+                <hr/>
+            </div>
+        <?php endforeach ?>
 
-            <hr />
-        </div>
+        <nav>
 
-        <div class="photo">
-            <a href="/user/michael/photo/123456"><img src="/pictures/michael/3.jpg" /></a>
+            <ul class="pagination">
+                <!--                                   <li>
+                                                        <a href="#" aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                        </a>
+                                                    </li>-->
+                <?php $db->pagination($photosCount, $perPage); ?>
+                <!--                                   <li>
+                                                        <a href="#" aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                        </a>
+                                                    </li>-->
+            </ul>
+        </nav>
 
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
-
-            <hr />
-        </div>
-
-        <div class="photo">
-            <a href="/user/michael/photo/123456"><img src="/pictures/michael/4.jpg" /></a>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
-
-            <hr />
-        </div>
 
     </div>
 </div>
