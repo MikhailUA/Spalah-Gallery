@@ -8,10 +8,9 @@ class GalleryController extends BaseController
             Router::redirect('/');
         }
 
-        $db = new FileDB();
-
         $username = UserSession::getInstance()->username;
 
+        $db = new FileDB();
         $photosCount = $db->getPhotosCount($username);
         $perPage = 2;
         $page = $arguments[2]; // номер страницы для отображения

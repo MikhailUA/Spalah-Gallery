@@ -10,13 +10,11 @@ class PhotoController extends BaseController
         $username = UserSession::getInstance()->username;
         $photo = $db->getPhoto($username, $photoId);
 
-
         require_once 'views/parts/header.php';
 
         require_once 'views/photo.php';
 
         require_once 'views/parts/footer.php';
-
 
         return true;
     }

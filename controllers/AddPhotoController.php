@@ -22,7 +22,6 @@ class AddPhotoController extends BaseController
 
         require_once 'views/parts/footer.php';
 
-
         return true;
     }
 }
