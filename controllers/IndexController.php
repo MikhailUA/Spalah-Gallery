@@ -15,7 +15,7 @@ class IndexController extends BaseController
             !empty($_POST['username']) &&
             !empty($_POST['password'])
         ) {
-            $fdb = new FileDB(__DIR__ . '/../db');
+            $fdb = new MySQLDB();
             if ($fdb->findUser($_POST['username'], $_POST['password'])) {
                 UserSession::getInstance()->login($_POST['username']);
                 Router::redirect('/user/' . UserSession::getInstance()->username . '/page/1');

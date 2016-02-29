@@ -18,11 +18,14 @@ class RegisterController extends BaseController
 
         ) {
             if ($_POST['password'] == $_POST['password-confirm']) {
-                $fdb = new FileDB(__DIR__ . '/../db');
+
+                $fdb = new MySQLDB();
+
                 if (!$fdb->findUsername($_POST['username'])) {
                     $fdb->addUser($_POST['username'], $_POST['password']);
                     UserSession::getInstance()->login($_POST['username']);
                     Router::redirect('/');
+
                 } else {
                     $error = "Failed: User already exists.";
                 }
