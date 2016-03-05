@@ -18,7 +18,7 @@ class Picture
         $imageNewPath = $usernameDir . '/' . $fileName;
         move_uploaded_file($tmpPath, $imageNewPath);
 
-        self::thumnnailPhoto($imageNewPath);
+        //self::thumnnailPhoto($imageNewPath);
 
         return $fileName;
     }

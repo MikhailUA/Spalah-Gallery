@@ -15,9 +15,10 @@ class IndexController extends BaseController
             !empty($_POST['username']) &&
             !empty($_POST['password'])
         ) {
-            $fdb = new MySQLDB();
-            if ($fdb->findUser($_POST['username'], $_POST['password'])) {
-                UserSession::getInstance()->login($_POST['username']);
+            //$fdb = new MySQLDB();
+            $userId = MySQLDB::getInstance()->findUser($_POST['username'], $_POST['password']);
+            if ($userId) {
+                UserSession::getInstance()->login($userId,$_POST['username']);
                 Router::redirect('/user/' . UserSession::getInstance()->username . '/page/1');
             } else {
                 $error = "Failed: Login and password not valid.";

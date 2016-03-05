@@ -11,8 +11,7 @@ class AddPhotoController extends BaseController
 
         if (isset($_FILES['photo'])) {
             $uri = Picture::uploadFile($_FILES['photo']['tmp_name'], $_FILES['photo']['name'], UserSession::getInstance()->username);
-            $db = new FileDB();
-            $db->addPhoto(UserSession::getInstance()->username, $uri, $_POST['description']);
+            MySQLDB::getInstance()->addPhoto(UserSession::getInstance()->userId, $uri, $_POST['description']);
             Router::redirect('/user/' . UserSession::getInstance()->username . '/page/1');
         }
 

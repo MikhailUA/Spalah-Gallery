@@ -38,7 +38,16 @@ class MySQLDB
 
     public function findUser($username, $password)
     {
-
+        $statement = $this->db->prepare("SELECT * FROM users WHERE username=:username AND password=:password");
+        $statement->bindValue('username',$username);
+        $statement->bindValue('password',sha1($password));
+        if ($statement->execute()){
+            $data = $statement ->fetch();
+            if ($data){
+                $userId = $data['id'];
+                return $userId;
+            }
+        }
     }
 
     public function findUsername($username)
@@ -61,7 +70,6 @@ class MySQLDB
         $statement = $this->db->prepare("INSERT INTO users (username,password,regDate) VALUES (:username,:password,NOW())");
         $statement->bindValue('username',$username);
         $statement->bindValue('password',sha1($password));
-
         if(!$statement->execute()) {
             echo $statement->errorInfo();
         } else {
@@ -69,9 +77,18 @@ class MySQLDB
         }
     }
 
-    public function addPhoto($username, $photoURI, $description)
+    public function addPhoto($userId, $photoURI, $description)
     {
+        $statement=$this->db->prepare("INSERT INTO photos (userId,photoURI,description,date) VALUES (:userId,:photoURI,:description,NOW())");
+        $statement->bindValue('userId',$userId);
+        $statement->bindValue('photoURI',$photoURI);
+        $statement->bindValue('description',$description);
 
+        if (!$statement->execute()){
+            echo var_dump($statement->errorInfo());die;
+        } else{
+            return $this->db->lastInsertId();
+        }
     }
 
     public function getPhoto($username, $photoId)
