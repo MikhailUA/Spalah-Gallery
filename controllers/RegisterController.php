@@ -19,7 +19,7 @@ class RegisterController extends BaseController
         ) {
             if ($_POST['password'] == $_POST['password-confirm']) {
 
-                $fdb = new MySQLDB();
+                $fdb = MySQLDB::getInstance(); // вместо того, чтобы каждый раз делать new MySQLDB(params)
 
                 if (!$fdb->findUsername($_POST['username'])) {
                     $fdb->addUser($_POST['username'], $_POST['password']);

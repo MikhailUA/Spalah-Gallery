@@ -1,19 +1,38 @@
 <?php
 
+/**
+ //* @property MySQLDB
+ //* Class MySQLDB
+ */
+//namespace gallery;
+
 class MySQLDB
 {
 
-    public $db=null;
-    public $host = 'mysql:dbname=spalah-gallery;host=127.0.0.1';
-    public $user = 'root';
-    public $password = '';
+    private static $instance;
+    private $db=null;
+    
+    public static function init ($host, $dbName,$user, $password){
+        if (!self::$instance){
+        self::$instance = new self ($host, $dbName, $user, $password);
+        }
+    }
 
-    public function __construct()
+    public static function getInstance(){
+        if (self::$instance){
+            return self::$instance;
+        } else {
+            throw new Exception('No instance');
+        }
+    }
+
+    public function __construct($host,$dbName,$user,$password)
     {
         try {
-        $this->db= new PDO('mysql:dbname=spalah-gallery;host=127.0.0.1','root');
+            $this->db= new PDO("mysql:host=$host;dbname=$dbName;charset=UTF8",$user,$password);
         } catch (PDOException $e){
             echo "Connection Failed". $e->getMessage();
+            die;
         }
     }
 
@@ -24,20 +43,30 @@ class MySQLDB
 
     public function findUsername($username)
     {
+        $statement = $this->db->prepare("SELECT * FROM users WHERE username=:username");
+        $statement->bindValue('username',$username);
 
+        if ($statement->execute()){
+            if ($statement->fetch()){
+                return true;
+            }
+        }else{
+            throw new Exception();
+        }
+        return false;
     }
 
     public function addUser($username, $password)
     {
-        $pdo = $this->db;
-        $statement = $pdo->prepare("INSERT INTO users (username,password) VALUES (:username,:password)");
+        $statement = $this->db->prepare("INSERT INTO users (username,password,regDate) VALUES (:username,:password,NOW())");
         $statement->bindValue('username',$username);
         $statement->bindValue('password',sha1($password));
 
-        $statement->execute();
-        var_dump($statement->errorInfo());
-        $er=$statement->errorInfo();
-        echo $er;
+        if(!$statement->execute()) {
+            echo $statement->errorInfo();
+        } else {
+            return $this->db->lastInsertId();
+        }
     }
 
     public function addPhoto($username, $photoURI, $description)

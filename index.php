@@ -8,6 +8,9 @@ require_once 'models/Picture.php';
 require_once 'models/FileDB.php';
 require_once 'models/MySQLDB.php';
 
+$mysqlConf = require_once 'mysql.php';
+MySQLDB::init($mysqlConf['host'],$mysqlConf['dbName'],$mysqlConf['user'],$mysqlConf['password']);
+
 $router = new Router($_SERVER['REQUEST_URI']);
 
 if(!$router->handle()) {

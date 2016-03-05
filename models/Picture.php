@@ -18,6 +18,8 @@ class Picture
         $imageNewPath = $usernameDir . '/' . $fileName;
         move_uploaded_file($tmpPath, $imageNewPath);
 
+        self::thumnnailPhoto($imageNewPath);
+
         return $fileName;
     }
 
@@ -26,6 +28,19 @@ class Picture
         $date = new DateTime($dateStr);
         return $date->format('d.m.Y H:i');
 
+    }
+
+    public static function thumnnailPhoto($photoPath){
+        $img = new Imagick($photoPath);
+        //$img ->thumbnailImage(512,512);
+        //$img->cropThumbnailImage(512,512);
+        // вариант с масштабированием
+        $w = $img->getImageWidth();
+        $h=$img->getImageHeight();
+        $wNew=512;
+        $hNew=$h*$wNew/$w;
+        $img ->thumbnailImage($wNew,$hNew);
+        $img ->writeImage($photoPath);
     }
 
 }
