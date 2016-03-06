@@ -8,14 +8,15 @@ class GalleryController extends BaseController
             Router::redirect('/');
         }
 
-        $username = UserSession::getInstance()->username;
+        $userId = UserSession::getInstance()->userId;
 
-        $db = new FileDB();
-        $photosCount = $db->getPhotosCount($username);
-        $perPage = 2;
-        $page = $arguments[2]; // номер страницы для отображения
+        //$db = new FileDB();
+        //$photosCount = $db->getPhotosCount($username);
+        //$perPage = 2;
+        //$page = $arguments[2]; // номер страницы для отображения
 
-        $photos = $db->getPhotos($username, $page, $perPage) ?: [];
+        //$photos = $db->getPhotos($username, $page, $perPage) ?: [];
+        $photos = MySQLDB::getInstance()->getPhotos($userId) ?: [];
 
         require_once 'views/parts/header.php';
 

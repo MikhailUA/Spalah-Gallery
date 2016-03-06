@@ -6,10 +6,10 @@ class DeletePhotoController extends BaseController
     {
 
         $username = UserSession::getInstance()->username;
-        $id = $_SESSION['photoId'];
+        $photoId = $arguments[1];
 
-        $db = new FileDB();
-        $db->deletePhoto($username, $id);
+        //$db = new FileDB();
+        MySQLDB::getInstance()->deletePhoto($username,$photoId);
         Router::redirect('/');
         return true;
     }

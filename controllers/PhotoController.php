@@ -6,9 +6,9 @@ class PhotoController extends BaseController
     {
 
         $photoId = $arguments[2];
-        $db = new FileDB();
+        //$db = new FileDB();
         $username = UserSession::getInstance()->username;
-        $photo = $db->getPhoto($username, $photoId);
+        $photo = MySQLDB::getInstance()->getPhoto($photoId);
 
         require_once 'views/parts/header.php';
 

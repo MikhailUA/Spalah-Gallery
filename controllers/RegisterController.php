@@ -22,8 +22,8 @@ class RegisterController extends BaseController
                 $fdb = MySQLDB::getInstance(); // вместо того, чтобы каждый раз делать new MySQLDB(params)
 
                 if (!$fdb->findUsername($_POST['username'])) {
-                    $fdb->addUser($_POST['username'], $_POST['password']);
-                    UserSession::getInstance()->login($_POST['username']);
+                    $userId=$fdb->addUser($_POST['username'], $_POST['password']);
+                    UserSession::getInstance()->login($userId,$_POST['username']);
                     Router::redirect('/');
 
                 } else {

@@ -10,7 +10,7 @@ class Router
         '/^\/user\/([A-Za-z0-9]+)\/page\/(\d+)$/' => 'GalleryController',
         '/^\/signup$/' => 'RegisterController',
         '/^\/photo$/' => 'AddPhotoController',
-        '/^\/user\/([A-Za-z0-9]+)\/photo\/(\d+)/' => 'PhotoController',
+        '/^\/user\/([A-Za-z0-9]+)\/photo\/(.+)/' => 'PhotoController',
         '/^\/deletePhoto$/' => 'DeletePhotoController'
     ];
 

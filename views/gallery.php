@@ -12,8 +12,8 @@
 
             <div class="photo">
                 <!--<a href="/pictures/<?php /*echo $username */ ?>/<?php /*echo $photo['photoURI'] */ ?>">-->
-                <a href="/user/<?php echo $username ?>/photo/<?php echo $photo['photoURI'] ?>">
-                    <img src="/pictures/<?php echo $username ?>/<?php echo $photo['photoURI'] ?>"/></a>
+                <a href="/user/<?php echo $photo['username']; ?>/photo/<?php echo $photo['photoId'] ?>">
+                    <img src="/pictures/<?php echo $photo['username'];?>/<?php echo $photo['photoURI'] ?>"/></a>
 
                 <p>
                     <?php echo Picture::formatDate($photo['date']) ?>
@@ -35,7 +35,7 @@
                                                             <span aria-hidden="true">&laquo;</span>
                                                         </a>
                                                     </li>-->
-                <?php $db->pagination($photosCount, $perPage); ?>
+                <?php //$db->pagination($photosCount, $perPage); ?>
                 <!--                                   <li>
                                                         <a href="#" aria-label="Next">
                                                             <span aria-hidden="true">&raquo;</span>

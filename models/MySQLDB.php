@@ -29,7 +29,7 @@ class MySQLDB
     public function __construct($host,$dbName,$user,$password)
     {
         try {
-            $this->db= new PDO("mysql:host=$host;dbname=$dbName;charset=UTF8",$user,$password);
+            $this->db= new PDO("mysql:host=$host;dbname=$dbName;charset=UTF8",$user,$password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
         } catch (PDOException $e){
             echo "Connection Failed". $e->getMessage();
             die;
@@ -91,24 +91,70 @@ class MySQLDB
         }
     }
 
-    public function getPhoto($username, $photoId)
+    public function getPhoto($photoId)
     {
+        $statement = $this->db->prepare("SELECT photoURI,description,date FROM photos WHERE photoId=:photoId");
+        $statement->bindValue('photoId',$photoId);
+
+        if ($statement->execute()){
+            $photosToDisplay = $statement->fetch(PDO::FETCH_ASSOC);
+            //var_dump($photosToDisplay);die;
+            if ($photosToDisplay){
+                //$_SESSION['photoId'] = $photoId;
+                return [
+                    'photoId' => $photoId,
+                    'photoURI' => $photosToDisplay['photoURI'],
+                    'description' => $photosToDisplay['description'],
+                ];
+            } else {
+                echo var_dump($statement->errorInfo());die;
+            }
+        } else {
+            echo var_dump($statement->errorInfo());die;
+        }
 
     }
 
-    public function getPhotos($username, $page, $perPage)
-    {
 
+    public function getPhotos($userId)
+    {
+        $statement = $this->db->prepare("SELECT id,username,photoId,photoURI,description,date FROM photos INNER JOIN users ON photos.userId=id WHERE userId=:userId");
+        $statement->bindValue('userId',$userId);
+
+        if ($statement->execute()){
+            $photosToDisplay = $statement->fetchAll(PDO::FETCH_ASSOC);
+            if ($photosToDisplay){
+                    return $photosToDisplay;
+                }
+        } else {
+            echo var_dump($statement->errorInfo());die;
+        }
     }
 
-    public function deletePhoto($username, $id)
+    public function deletePhoto($username,$photoId)
     {
+        //удаление из базы
+        $statement=$this->db->prepare("
+            SELECT photoURI FROM photos WHERE photoId=:photoId;
+            DELETE FROM photos WHERE photoId=:photoId;");
+        $statement->bindValue('photoId',$photoId);
+        if ($statement->execute()){
+            $data=$statement->fetch(PDO::FETCH_ASSOC);
+            $filename=$data['photoURI'];
+        }else {
+            echo var_dump($statement->errorInfo());die;
+        }
 
+        // удаление с диска
+        $filePath = "./pictures/" . $username . "/" . $filename;
+        unlink($filePath);
+
+        return true;
     }
 
     public function getPhotosCount($username)
     {
-
+        
     }
 
     public function pagination($photosCount, $perPage)
