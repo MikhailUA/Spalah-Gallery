@@ -18,7 +18,7 @@ class Picture
         $imageNewPath = $usernameDir . '/' . $fileName;
         move_uploaded_file($tmpPath, $imageNewPath);
 
-        //self::thumnnailPhoto($imageNewPath);
+        //self::thumbnailPhoto($imageNewPath);
 
         return $fileName;
     }
@@ -30,7 +30,7 @@ class Picture
 
     }
 
-    public static function thumnnailPhoto($photoPath){
+    public static function thumbnailPhoto($photoPath){
         $img = new Imagick($photoPath);
         //$img ->thumbnailImage(512,512);
         //$img->cropThumbnailImage(512,512);
