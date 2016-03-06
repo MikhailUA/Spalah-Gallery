@@ -1,4 +1,5 @@
 <?php
+require_once 'PaginationController.php';
 
 class GalleryController extends BaseController
 {
@@ -10,13 +11,11 @@ class GalleryController extends BaseController
 
         $userId = UserSession::getInstance()->userId;
 
-        //$db = new FileDB();
-        //$photosCount = $db->getPhotosCount($username);
-        //$perPage = 2;
-        //$page = $arguments[2]; // номер страницы для отображения
+        $photosCount = MySQLDB::getInstance()->getPhotosCount($userId);
+        $perPage = 2;
+        $page = $arguments[2]; // номер страницы для отображения
 
-        //$photos = $db->getPhotos($username, $page, $perPage) ?: [];
-        $photos = MySQLDB::getInstance()->getPhotos($userId) ?: [];
+        $photos = MySQLDB::getInstance()->getPhotos($userId, $page, $perPage) ?: [];
 
         require_once 'views/parts/header.php';
 

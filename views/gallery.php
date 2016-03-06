@@ -35,7 +35,7 @@
                                                             <span aria-hidden="true">&laquo;</span>
                                                         </a>
                                                     </li>-->
-                <?php //$db->pagination($photosCount, $perPage); ?>
+                <?php pagination($photosCount, $perPage); ?>
                 <!--                                   <li>
                                                         <a href="#" aria-label="Next">
                                                             <span aria-hidden="true">&raquo;</span>
