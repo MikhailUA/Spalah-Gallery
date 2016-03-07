@@ -1,11 +1,11 @@
 <?php
 
+require_once 'vendor/autoload.php';
 require_once 'components/Router.php';
 require_once 'components/UserSession.php';
 require_once 'controllers/BaseController.php';
 
 require_once 'models/Picture.php';
-require_once 'models/FileDB.php';
 require_once 'models/MySQLDB.php';
 
 $mysqlConf = require_once 'mysql.php';

@@ -14,6 +14,20 @@
                 <!--<a href="/pictures/<?php /*echo $username */ ?>/<?php /*echo $photo['photoURI'] */ ?>">-->
                 <a href="/user/<?php echo $photo['username']; ?>/photo/<?php echo $photo['photoId'] ?>">
                     <img src="/pictures/<?php echo $photo['username'];?>/<?php echo $photo['photoURI'] ?>"/></a>
+                <p>
+                    <?php
+
+                        $page = new \SocialLinks\Page([
+                            'url'=>'spalah-gallery.local/',
+                            'title' => 'Spalah-Gallery',
+                            'text' => $photo['description'],
+                            'image'=>'spalah-gallery.local/'.'pictures/'.$photo['username'].'/'.$photo['photoURI']
+                        ]);
+                        $link = '<a href="%s">%s (%s)</a> ';
+                        printf($link, $page->facebook->shareUrl, 'FB', $page->facebook->shareCount);
+                        printf($link, $page->linkedin->shareUrl, 'LinkedIn', $page->linkedin->shareCount);
+                    ?>
+                </p>
 
                 <p>
                     <?php echo Picture::formatDate($photo['date']) ?>
