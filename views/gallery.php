@@ -17,15 +17,24 @@
                 <p>
                     <?php
 
-                        $page = new \SocialLinks\Page([
+                            $url='https://spalah-gallery.local/';
+                            $title = 'Spalah-Gallery';
+                            $text = $photo['description'];
+                            $image='https://spalah-gallery.local/'.'pictures/'.$photo['username'].'/'.$photo['photoURI'];
+
+                            $page = new SocialLinks($url,$title,$text,$image,'');
+
+                            $link = '<a href="%s">%s (%s)</a> ';
+                            printf($link, $page->page->facebook->shareUrl(), 'FB', $page->page->facebook->shareCount);
+                            //printf($link, $page->linkedin->shareUrl, 'LinkedIn', $page->linkedin->shareCount);
+
+
+/*                        $page = new \SocialLinks\Page([
                             'url'=>'spalah-gallery.local/',
                             'title' => 'Spalah-Gallery',
                             'text' => $photo['description'],
                             'image'=>'spalah-gallery.local/'.'pictures/'.$photo['username'].'/'.$photo['photoURI']
-                        ]);
-                        $link = '<a href="%s">%s (%s)</a> ';
-                        printf($link, $page->facebook->shareUrl, 'FB', $page->facebook->shareCount);
-                        printf($link, $page->linkedin->shareUrl, 'LinkedIn', $page->linkedin->shareCount);
+                        ]);*/
                     ?>
                 </p>
 

@@ -17,8 +17,6 @@ class GalleryController extends BaseController
 
         $photos = MySQLDB::getInstance()->getPhotos($userId, $page, $perPage) ?: [];
 
-                
-
 
         require_once 'views/parts/header.php';
 
