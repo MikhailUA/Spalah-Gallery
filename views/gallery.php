@@ -16,23 +16,11 @@
                     <img src="/pictures/<?php echo $photo['username'];?>/<?php echo $photo['photoURI'] ?>"/></a>
                 <p>
                     <?php
-/*                  $p = constr($photo['username'],$photo['photoURI'],$photo['description']);
-                    sFbN($p);
-                    sLNN($p);
-                    sVKN($p);*/
 
-                    //SocialLinks::getInstance($photo['username'],$photo['photoURI'],$photo['description'])->sFbN();
-                    /*$pS = new SocialLinks();*/
-                    //$p =$pS->constr($photo['username'],$photo['photoURI'],$photo['description']);
+                    SocialLinks::getInstance($photo['username'],$photo['photoURI'],$photo['description'])->sFbN();
+                    SocialLinks::getInstance($photo['username'],$photo['photoURI'],$photo['description'])->sLNN();
+                    SocialLinks::getInstance($photo['username'],$photo['photoURI'],$photo['description'])->sVKN();
 
-                    $p = SocialLinks::constr($photo['username'],$photo['photoURI'],$photo['description']);
-                    SocialLinks::sFbN($p);
-                    SocialLinks::sLNN($p);
-                    SocialLinks::sVKN($p);
-                    /*
-                    $pS->sFbN($p);
-                    $pS->sLNN($p);
-                    $pS->sVKN($p);*/
                     ?>
                 </p>
 

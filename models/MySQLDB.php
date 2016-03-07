@@ -93,11 +93,14 @@ class MySQLDB
 
     public function getPhoto($photoId)
     {
-        $statement = $this->db->prepare("SELECT photoURI,description,date FROM photo WHERE photoId=:photoId");
+        $statement = $this->db->prepare("
+             SELECT photoURI,description,date,name,text,createdAt FROM photo
+             LEFT JOIN comment ON comment.photoId=photo.photoId
+             WHERE photo.photoId=:photoId");
         $statement->bindValue('photoId',$photoId);
 
         if ($statement->execute()){
-            $photosToDisplay = $statement->fetch(PDO::FETCH_ASSOC);
+            $photosToDisplay = $statement->fetchAll(PDO::FETCH_ASSOC);
             //var_dump($photosToDisplay);die;
             if ($photosToDisplay){
                 //$_SESSION['photoId'] = $photoId;

@@ -1,90 +1,38 @@
 <?php
 
+Class SocialLinks {
 
+    private $page;
+    private static $instance;
 
+    public function __construct ($username,$photoURI,$text)
+    {
+        $image = 'spalah-gallery.local/' . 'pictures/' . $username . '/' . $photoURI;
+        $this->page = new \SocialLinks\Page([
+            'url' => $image,
+            'title' => "Spalah-Gallery",
+            'text' => $text,
+            'image' => $image,
+            'twitterUser' => ''
+        ]);
+    }
 
+    public static function getInstance ($username,$photoURI,$text){
+        return self::$instance = new self($username,$photoURI,$text);
+    }
 
-
-
-
-/*
-
-
-function constr ($username,$photoURI,$text)
-{
-    $image = 'https://spalah-gallery.local/' . 'pictures/' . $username . '/' . $photoURI;
-    $page = new \SocialLinks\Page([
-        'url' => $image,
-        'title' => "Spalah-Gallery",
-        'text' => $text,
-        'image' => $image,
-        'twitterUser' => ''
-    ]);
-    return $page;
-}
-
-
-function sFbN ($page){
+    public function sFbN (){
     $link = '<a href="%s">%s (%s)</a> ';
-    return printf($link, $page->facebook->shareUrl, 'FB', $page->facebook->shareCount);
-}
+    return printf($link, $this->page->facebook->shareUrl, 'FB', $this->page->facebook->shareCount);
+    }
 
-function sLNN ($page){
+    public function sLNN (){
     $link = '<a href="%s">%s (%s)</a> ';
-    return printf($link, $page->linkedin->shareUrl, 'LN', $page->linkedin->shareCount);
+    return printf($link, $this->page->linkedin->shareUrl, 'LN', $this->page->linkedin->shareCount);
+    }
+
+    public function sVKN (){
+    $link = '<a href="%s">%s</a> ';
+    return printf($link, $this->page->Vk->shareUrl, 'VK');
+    }
 }
-
-function sVKN ($page){
-    $link = '<a href="%s">%s (x)</a> ';
-    return printf($link, $page->Vk->shareUrl, 'VK', $page->Vk->shareCount);
-}
-
-*/
-
-
-
-
-
-
-/*
-function sFb ($username,$photoURI,$text){
-    $image='https://spalah-gallery.local/'.'pictures/'.$username.'/'.$photoURI;
-    $page = new \SocialLinks\Page([
-        'url' => $image,
-        'title' => "Spalah-Gallery",
-        'text' => $text,
-        'image' => $image,
-        'twitterUser' => ''
-    ]);
-
-    $link = '<a href="%s">%s (%s)</a> ';
-    return printf($link, $page->facebook->shareUrl, 'FB', $page->facebook->shareCount);
-}
-
-function sLN ($username,$photoURI,$text){
-    $image='https://spalah-gallery.local/'.'pictures/'.$username.'/'.$photoURI;
-    $page = new \SocialLinks\Page([
-        'url' => $image,
-        'title' => "Spalah-Gallery",
-        'text' => $text,
-        'image' => $image,
-        'twitterUser' => ''
-    ]);
-
-    $link = '<a href="%s">%s (%s)</a> ';
-    return printf($link, $page->linkedin->shareUrl, 'LinkedIn', $page->linkedin->shareCount);
-}
-
-function sVK ($username,$photoURI,$text){
-    $image='https://spalah-gallery.local/'.'pictures/'.$username.'/'.$photoURI;
-    $page = new \SocialLinks\Page([
-        'url' => $image,
-        'title' => "Spalah-Gallery",
-        'text' => $text,
-        'image' => $image,
-        'twitterUser' => ''
-    ]);
-
-    $link = '<a href="%s">%s (x)</a> ';
-    return printf($link, $page->Vk->shareUrl, 'VK');
-}*/
