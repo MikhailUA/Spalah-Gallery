@@ -1,6 +1,6 @@
 <?php
 require_once 'PaginationController.php';
-
+require_once 'SocialLinks.php';
 class GalleryController extends BaseController
 {
     public function execute($arguments = [])

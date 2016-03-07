@@ -12,29 +12,20 @@
 
             <div class="photo">
                 <!--<a href="/pictures/<?php /*echo $username */ ?>/<?php /*echo $photo['photoURI'] */ ?>">-->
-                <a href="/user/<?php echo $photo['username']; ?>/photo/<?php echo $photo['photoId'] ?>">
+                    <a href="/user/<?php echo $photo['username']; ?>/photo/<?php echo $photo['photoId'] ?>">
                     <img src="/pictures/<?php echo $photo['username'];?>/<?php echo $photo['photoURI'] ?>"/></a>
                 <p>
                     <?php
 
-                            $url='https://spalah-gallery.local/';
+                            $url='spalah-gallery.local/'.'pictures/'.$photo['username'].'/'.$photo['photoURI'];
                             $title = 'Spalah-Gallery';
                             $text = $photo['description'];
                             $image='https://spalah-gallery.local/'.'pictures/'.$photo['username'].'/'.$photo['photoURI'];
 
-                            $page = new SocialLinks($url,$title,$text,$image,'');
+                            $l=soc($url,$title,$text,$image,'');
+                            $l[0];
+                            $l[1];
 
-                            $link = '<a href="%s">%s (%s)</a> ';
-                            printf($link, $page->page->facebook->shareUrl(), 'FB', $page->page->facebook->shareCount);
-                            //printf($link, $page->linkedin->shareUrl, 'LinkedIn', $page->linkedin->shareCount);
-
-
-/*                        $page = new \SocialLinks\Page([
-                            'url'=>'spalah-gallery.local/',
-                            'title' => 'Spalah-Gallery',
-                            'text' => $photo['description'],
-                            'image'=>'spalah-gallery.local/'.'pictures/'.$photo['username'].'/'.$photo['photoURI']
-                        ]);*/
                     ?>
                 </p>
 
