@@ -96,17 +96,19 @@ class MySQLDB
 
     public function getPhoto($photoId)
     {
-        $statement = $this->db->prepare("
+/*        $statement = $this->db->prepare("
              SELECT photoURI,description,date,name,text,createdAt FROM photo
              LEFT JOIN comment ON comment.photoId=photo.photoId
+             WHERE photo.photoId=:photoId");*/
+        $statement = $this->db->prepare("
+             SELECT photoURI,description,date FROM photo
              WHERE photo.photoId=:photoId");
         $statement->bindValue('photoId', $photoId);
 
         if ($statement->execute()) {
-            $photosToDisplay = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $photosToDisplay = $statement->fetch(PDO::FETCH_ASSOC);
             //var_dump($photosToDisplay);die;
             if ($photosToDisplay) {
-                //$_SESSION['photoId'] = $photoId;
                 return [
                     'photoId' => $photoId,
                     'photoURI' => $photosToDisplay['photoURI'],
@@ -177,4 +179,17 @@ class MySQLDB
         }
     }
 
+
+    public function addComment ($photoId,$name,$text){
+        $statement = $this->db->prepare("INSERT INTO comment (photoId,name,text,createdAt) VALUES (:photoId,:name,:text,NOW())");
+        $statement->bindValue('photoId',$photoId);
+        $statement->bindValue('name',$name);
+        $statement->bindValue('text',$text);
+        if ($statement->execute()){
+            return $this->db->lastInsertId();
+        }else{
+            echo var_dump($statement->errorInfo());
+            die;
+        }
+    }
 }

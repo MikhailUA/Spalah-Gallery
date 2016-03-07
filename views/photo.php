@@ -1,4 +1,4 @@
-<div class="col-lg-6 col-lg-offset-3">
+<div class="col-lg-6 col-lg-offset-3" xmlns="http://www.w3.org/1999/html">
 
     <div class="form-group">
         <a href="/user/<?php echo $username; ?>/page/1" class="btn btn-primary">Back to Gallery</a>
@@ -14,6 +14,18 @@
 
         <p>
             <?php echo $photo['description'] ?>
+        </p>
+        <p>
+            Comments
+        </p>
+        <p>
+
+            <form method="post">
+                <input type="text" name='name'>
+                <textarea name='text'></textarea>
+                <input type="submit">
+            </form>
+
         </p>
 
         <hr/>

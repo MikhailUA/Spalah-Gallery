@@ -6,8 +6,14 @@ class PhotoController extends BaseController
     {
 
         $photoId = $arguments[2];
-        //$db = new FileDB();
         $username = UserSession::getInstance()->username;
+
+        if (!empty($_POST)){
+            if (isset($_POST['name']) && isset($_POST['text'])){
+                MySQLDB::getInstance()->addComment($photoId,$_POST['name'],$_POST['text']);
+            }
+        }
+
         $photo = MySQLDB::getInstance()->getPhoto($photoId);
 
         require_once 'views/parts/header.php';
