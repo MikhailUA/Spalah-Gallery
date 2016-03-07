@@ -11,16 +11,15 @@
         <?php foreach ($photos as $photo): ?>
 
             <div class="photo">
-                <!--<a href="/pictures/<?php /*echo $username */ ?>/<?php /*echo $photo['photoURI'] */ ?>">-->
-                    <a href="/user/<?php echo $photo['username']; ?>/photo/<?php echo $photo['photoId'] ?>">
-                    <img src="/pictures/<?php echo $photo['username'];?>/<?php echo $photo['photoURI'] ?>"/></a>
+
+                <a href="/user/<?php echo $photo['username']; ?>/photo/<?php echo $photo['photoId'] ?>">
+                    <img src="/pictures/<?php echo $photo['username']; ?>/<?php echo $photo['photoURI'] ?>"/></a>
+
                 <p>
                     <?php
-
-                    SocialLinks::getInstance($photo['username'],$photo['photoURI'],$photo['description'])->sFbN();
-                    SocialLinks::getInstance($photo['username'],$photo['photoURI'],$photo['description'])->sLNN();
-                    SocialLinks::getInstance($photo['username'],$photo['photoURI'],$photo['description'])->sVKN();
-
+                    SocialLinks::getInstance($photo['username'], $photo['photoURI'], $photo['description'])->Fb();
+                    SocialLinks::getInstance($photo['username'], $photo['photoURI'], $photo['description'])->LN();
+                    SocialLinks::getInstance($photo['username'], $photo['photoURI'], $photo['description'])->VK();
                     ?>
                 </p>
 

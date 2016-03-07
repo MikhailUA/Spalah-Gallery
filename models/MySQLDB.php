@@ -1,8 +1,8 @@
 <?php
 
 /**
- //* @property MySQLDB
- //* Class MySQLDB
+ * //* @property MySQLDB
+ * //* Class MySQLDB
  */
 //namespace gallery;
 
@@ -10,28 +10,30 @@ class MySQLDB
 {
 
     private static $instance;
-    private $db=null;
-    
-    public static function init ($host, $dbName,$user, $password){
-        if (!self::$instance){
-        self::$instance = new self ($host, $dbName, $user, $password);
+    private $db = null;
+
+    public static function init($host, $dbName, $user, $password)
+    {
+        if (!self::$instance) {
+            self::$instance = new self ($host, $dbName, $user, $password);
         }
     }
 
-    public static function getInstance(){
-        if (self::$instance){
+    public static function getInstance()
+    {
+        if (self::$instance) {
             return self::$instance;
         } else {
             throw new Exception('No instance');
         }
     }
 
-    public function __construct($host,$dbName,$user,$password)
+    public function __construct($host, $dbName, $user, $password)
     {
         try {
-            $this->db= new PDO("mysql:host=$host;dbname=$dbName;charset=UTF8",$user,$password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-        } catch (PDOException $e){
-            echo "Connection Failed". $e->getMessage();
+            $this->db = new PDO("mysql:host=$host;dbname=$dbName;charset=UTF8", $user, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        } catch (PDOException $e) {
+            echo "Connection Failed" . $e->getMessage();
             die;
         }
     }
@@ -39,11 +41,11 @@ class MySQLDB
     public function findUser($username, $password)
     {
         $statement = $this->db->prepare("SELECT * FROM user WHERE username=:username AND password=:password");
-        $statement->bindValue('username',$username);
-        $statement->bindValue('password',sha1($password));
-        if ($statement->execute()){
-            $data = $statement ->fetch();
-            if ($data){
+        $statement->bindValue('username', $username);
+        $statement->bindValue('password', sha1($password));
+        if ($statement->execute()) {
+            $data = $statement->fetch();
+            if ($data) {
                 $userId = $data['id'];
                 return $userId;
             }
@@ -53,13 +55,13 @@ class MySQLDB
     public function findUsername($username)
     {
         $statement = $this->db->prepare("SELECT * FROM user WHERE username=:username");
-        $statement->bindValue('username',$username);
+        $statement->bindValue('username', $username);
 
-        if ($statement->execute()){
-            if ($statement->fetch()){
+        if ($statement->execute()) {
+            if ($statement->fetch()) {
                 return true;
             }
-        }else{
+        } else {
             throw new Exception();
         }
         return false;
@@ -68,9 +70,9 @@ class MySQLDB
     public function addUser($username, $password)
     {
         $statement = $this->db->prepare("INSERT INTO user (username,password,regDate) VALUES (:username,:password,NOW())");
-        $statement->bindValue('username',$username);
-        $statement->bindValue('password',sha1($password));
-        if(!$statement->execute()) {
+        $statement->bindValue('username', $username);
+        $statement->bindValue('password', sha1($password));
+        if (!$statement->execute()) {
             echo $statement->errorInfo();
         } else {
             return $this->db->lastInsertId();
@@ -79,14 +81,15 @@ class MySQLDB
 
     public function addPhoto($userId, $photoURI, $description)
     {
-        $statement=$this->db->prepare("INSERT INTO photo (userId,photoURI,description,date) VALUES (:userId,:photoURI,:description,NOW())");
-        $statement->bindValue('userId',$userId);
-        $statement->bindValue('photoURI',$photoURI);
-        $statement->bindValue('description',$description);
+        $statement = $this->db->prepare("INSERT INTO photo (userId,photoURI,description,date) VALUES (:userId,:photoURI,:description,NOW())");
+        $statement->bindValue('userId', $userId);
+        $statement->bindValue('photoURI', $photoURI);
+        $statement->bindValue('description', $description);
 
-        if (!$statement->execute()){
-            echo var_dump($statement->errorInfo());die;
-        } else{
+        if (!$statement->execute()) {
+            echo var_dump($statement->errorInfo());
+            die;
+        } else {
             return $this->db->lastInsertId();
         }
     }
@@ -97,12 +100,12 @@ class MySQLDB
              SELECT photoURI,description,date,name,text,createdAt FROM photo
              LEFT JOIN comment ON comment.photoId=photo.photoId
              WHERE photo.photoId=:photoId");
-        $statement->bindValue('photoId',$photoId);
+        $statement->bindValue('photoId', $photoId);
 
-        if ($statement->execute()){
+        if ($statement->execute()) {
             $photosToDisplay = $statement->fetchAll(PDO::FETCH_ASSOC);
             //var_dump($photosToDisplay);die;
-            if ($photosToDisplay){
+            if ($photosToDisplay) {
                 //$_SESSION['photoId'] = $photoId;
                 return [
                     'photoId' => $photoId,
@@ -110,10 +113,12 @@ class MySQLDB
                     'description' => $photosToDisplay['description'],
                 ];
             } else {
-                echo var_dump($statement->errorInfo());die;
+                echo var_dump($statement->errorInfo());
+                die;
             }
         } else {
-            echo var_dump($statement->errorInfo());die;
+            echo var_dump($statement->errorInfo());
+            die;
         }
 
     }
@@ -121,37 +126,39 @@ class MySQLDB
 
     public function getPhotos($userId, $page, $perPage)
     {
-        $start=$page * $perPage - $perPage;
+        $start = $page * $perPage - $perPage;
 
         $statement = $this->db->prepare("
                       SELECT id,username,photoId,photoURI,description,date FROM photo
                       INNER JOIN user ON photo.userId=id WHERE userId=:userId
                       LIMIT :start,:perPage");
 
-        $statement->bindValue('userId',$userId);
-        $statement->bindValue('start',$start, PDO::PARAM_INT);
-        $statement->bindValue('perPage',$perPage, PDO::PARAM_INT);
+        $statement->bindValue('userId', $userId);
+        $statement->bindValue('start', $start, PDO::PARAM_INT);
+        $statement->bindValue('perPage', $perPage, PDO::PARAM_INT);
 
-        if ($statement->execute()){
+        if ($statement->execute()) {
             $photosToDisplay = $statement->fetchAll(PDO::FETCH_ASSOC);
-                return $photosToDisplay;
+            return $photosToDisplay;
         } else {
-            echo var_dump($statement->errorInfo());die;
+            echo var_dump($statement->errorInfo());
+            die;
         }
     }
 
-    public function deletePhoto($username,$photoId)
+    public function deletePhoto($username, $photoId)
     {
         //удаление из базы
-        $statement=$this->db->prepare("
+        $statement = $this->db->prepare("
             SELECT photoURI FROM photo WHERE photoId=:photoId;
             DELETE FROM photo WHERE photoId=:photoId;");
-        $statement->bindValue('photoId',$photoId);
-        if ($statement->execute()){
-            $data=$statement->fetch(PDO::FETCH_ASSOC);
-            $filename=$data['photoURI'];
-        }else {
-            echo var_dump($statement->errorInfo());die;
+        $statement->bindValue('photoId', $photoId);
+        if ($statement->execute()) {
+            $data = $statement->fetch(PDO::FETCH_ASSOC);
+            $filename = $data['photoURI'];
+        } else {
+            echo var_dump($statement->errorInfo());
+            die;
         }
 
         // удаление с диска
@@ -163,10 +170,10 @@ class MySQLDB
 
     public function getPhotosCount($userId)
     {
-        $statement=$this->db->prepare("SELECT COUNT(*) FROM photo WHERE userId=:userId");
-        $statement->bindValue('userId',$userId);
-        if ($statement->execute()){
-                return $photoCount=$statement->fetchColumn();
+        $statement = $this->db->prepare("SELECT COUNT(*) FROM photo WHERE userId=:userId");
+        $statement->bindValue('userId', $userId);
+        if ($statement->execute()) {
+            return $photoCount = $statement->fetchColumn();
         }
     }
 

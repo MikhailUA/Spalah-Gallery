@@ -8,9 +8,9 @@
     </div>
 
     <div class="photo">
-        <!--<a href="/user/<?php /*echo $username; */?>/photo/<?php /*echo $photo['photoId']*/?>">-->
-            <a href="/pictures/<?php echo $username; ?>/<?php echo $photo['photoURI']?>">
-            <img src="/pictures/<?php echo $username; ?>/<?php echo $photo['photoURI']?>"/></a>
+
+        <a href="/pictures/<?php echo $username; ?>/<?php echo $photo['photoURI'] ?>">
+            <img src="/pictures/<?php echo $username; ?>/<?php echo $photo['photoURI'] ?>"/></a>
 
         <p>
             <?php echo $photo['description'] ?>
