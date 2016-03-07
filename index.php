@@ -7,7 +7,8 @@ require_once 'controllers/BaseController.php';
 
 require_once 'models/Picture.php';
 require_once 'models/MySQLDB.php';
-//require_once 'models/SocialLinks.php';
+require_once 'models/SocialLinks.php';
+require_once 'models/SocialLinksCl.php';
 
 $mysqlConf = require_once 'mysql.php';
 MySQLDB::init($mysqlConf['host'],$mysqlConf['dbName'],$mysqlConf['user'],$mysqlConf['password']);
