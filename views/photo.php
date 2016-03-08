@@ -16,7 +16,13 @@
             <?php echo $photo['description'] ?>
         </p>
         <p>
-            Comments
+
+            <?php
+                foreach ($photo['comments'] as $comment){
+                echo $comment['name'].' '.$comment['createdAt']."</br>";
+                echo $comment['text']."</br>";
+            }
+            ?>
         </p>
         <p>
 

@@ -96,23 +96,27 @@ class MySQLDB
 
     public function getPhoto($photoId)
     {
-/*        $statement = $this->db->prepare("
+        $statement = $this->db->prepare("
              SELECT photoURI,description,date,name,text,createdAt FROM photo
              LEFT JOIN comment ON comment.photoId=photo.photoId
-             WHERE photo.photoId=:photoId");*/
-        $statement = $this->db->prepare("
-             SELECT photoURI,description,date FROM photo
              WHERE photo.photoId=:photoId");
+/*        $statement = $this->db->prepare("
+             SELECT photoURI,description,date FROM photo
+             WHERE photo.photoId=:photoId");*/
         $statement->bindValue('photoId', $photoId);
 
         if ($statement->execute()) {
-            $photosToDisplay = $statement->fetch(PDO::FETCH_ASSOC);
-            //var_dump($photosToDisplay);die;
-            if ($photosToDisplay) {
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            //var_dump($data);die;
+            if ($data) {
+                $photosToDisplay['photo'] = $data[0];
+                $photosToDisplay['comments'] = $data;
+
                 return [
                     'photoId' => $photoId,
-                    'photoURI' => $photosToDisplay['photoURI'],
-                    'description' => $photosToDisplay['description'],
+                    'photoURI' => $photosToDisplay['photo']['photoURI'],
+                    'description' => $photosToDisplay['photo']['description'],
+                    'comments' => $photosToDisplay['comments']
                 ];
             } else {
                 echo var_dump($statement->errorInfo());
