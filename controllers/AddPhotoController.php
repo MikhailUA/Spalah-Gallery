@@ -1,5 +1,12 @@
 <?php
 
+namespace spalahGallery\controllers;
+
+use spalahGallery\models\MySQLDB;
+use spalahGallery\models\Picture;
+use spalahGallery\components\UserSession;
+use spalahGallery\components\Router;
+
 class AddPhotoController extends BaseController
 {
     public function execute($arguments = [])

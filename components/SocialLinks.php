@@ -1,5 +1,7 @@
 <?php
 
+namespace spalahGallery\components;
+
 Class SocialLinks
 {
 
@@ -25,19 +27,16 @@ Class SocialLinks
 
     public function Fb()
     {
-        $link = '<a href="%s">%s (%s)</a> ';
-        return printf($link, $this->page->facebook->shareUrl, 'FB', $this->page->facebook->shareCount);
+        return '<a href="' . $this->page->facebook->shareUrl . '">FB (' . $this->page->facebook->shareCount . ')</a> ';
     }
 
     public function LN()
     {
-        $link = '<a href="%s">%s (%s)</a> ';
-        return printf($link, $this->page->linkedin->shareUrl, 'LN', $this->page->linkedin->shareCount);
+        return '<a href="' . $this->page->linkedin->shareUrl . '">LN (' . $this->page->linkedin->shareCount . ')</a> ';
     }
 
     public function VK()
     {
-        $link = '<a href="%s">%s</a> ';
-        return printf($link, $this->page->Vk->shareUrl, 'VK');
+        return '<a href="' . $this->page->Vk->shareUrl . '">VK</a> ';
     }
 }

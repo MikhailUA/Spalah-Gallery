@@ -1,5 +1,11 @@
 <?php
 
+namespace spalahGallery\controllers;
+
+use spalahGallery\models\MySQLDB;
+use spalahGallery\components\UserSession;
+use spalahGallery\components\Router;
+
 class IndexController extends BaseController
 {
     public function execute($arguments = [])
@@ -15,7 +21,7 @@ class IndexController extends BaseController
             !empty($_POST['username']) &&
             !empty($_POST['password'])
         ) {
-            //$fdb = new MySQLDB();
+
             $userId = MySQLDB::getInstance()->findUser($_POST['username'], $_POST['password']);
             if ($userId) {
                 UserSession::getInstance()->login($userId,$_POST['username']);

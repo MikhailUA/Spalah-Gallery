@@ -1,5 +1,7 @@
 <?php
 
+namespace spalahGallery\components;
+
 class Router
 {
 
@@ -32,7 +34,8 @@ class Router
                         return false;
                     }
                 }
-
+                //add namespace to controller
+                $value = '\spalahGallery\controllers\\' . $value;
                 $controller = new $value();
                 return $controller->execute($matches);
             }
@@ -52,6 +55,8 @@ class Router
                 }
             }
 
+            //add namespace to controller
+            $controller = '\spalahGallery\controllers\\' . $controller;
             $controller = new $controller();
             return $controller->execute($matches);
         }

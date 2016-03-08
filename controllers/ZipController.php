@@ -1,4 +1,9 @@
 <?php
+namespace spalahGallery\controllers;
+
+use spalahGallery\models\MySQLDB;
+use spalahGallery\components\UserSession;
+use spalahGallery\components\Router;
 
 class ZipController extends BaseController
 {

@@ -1,5 +1,11 @@
 <?php
 
+namespace spalahGallery\controllers;
+
+use spalahGallery\models\MySQLDB;
+use spalahGallery\components\UserSession;
+
+
 class PhotoController extends BaseController
 {
     public function execute($arguments = [])

@@ -4,7 +4,9 @@
  * //* @property MySQLDB
  * //* Class MySQLDB
  */
-//namespace gallery;
+
+namespace spalahGallery\models;
+use PDO;
 
 class MySQLDB
 {
@@ -100,9 +102,7 @@ class MySQLDB
              SELECT photoURI,description,date,name,text,createdAt FROM photo
              LEFT JOIN comment ON comment.photoId=photo.photoId
              WHERE photo.photoId=:photoId");
-/*        $statement = $this->db->prepare("
-             SELECT photoURI,description,date FROM photo
-             WHERE photo.photoId=:photoId");*/
+
         $statement->bindValue('photoId', $photoId);
 
         if ($statement->execute()) {

@@ -1,7 +1,7 @@
 <div class="col-lg-6 col-lg-offset-3">
 
     <ul class="nav nav-pills gallery-nav">
-        <li role="presentation" class="active"><a href="#"><?php echo UserSession::getInstance()->username; ?></a></li>
+        <li role="presentation" class="active"><a href="#"><?php echo $username; ?></a></li>
         <li role="presentation"><a href="/photo">Add Photo</a></li>
         <li role="presentation"><a href="/logout">Log Out</a></li>
     </ul>
@@ -17,14 +17,14 @@
 
                 <p>
                     <?php
-                    SocialLinks::getInstance($photo['username'], $photo['photoURI'], $photo['description'])->Fb();
-                    SocialLinks::getInstance($photo['username'], $photo['photoURI'], $photo['description'])->LN();
-                    SocialLinks::getInstance($photo['username'], $photo['photoURI'], $photo['description'])->VK();
+                        echo $photo['SocialLinks']['FB'];
+                        echo $photo['SocialLinks']['LN'];
+                        echo $photo['SocialLinks']['VK'];
                     ?>
                 </p>
 
                 <p>
-                    <?php echo Picture::formatDate($photo['date']) ?>
+                    <?php echo $photo['date'] ?>
                 </p>
 
                 <p>

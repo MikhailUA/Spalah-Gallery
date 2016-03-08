@@ -1,5 +1,9 @@
 <?php
 
+namespace spalahGallery\models;
+use DateTime;
+use Imagick;
+
 class Picture
 {
     public static function uploadFile($tmpPath, $fileName, $username)
@@ -44,3 +48,4 @@ class Picture
     }
 
 }
+

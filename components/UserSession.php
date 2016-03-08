@@ -1,5 +1,7 @@
 <?php
 
+namespace spalahGallery\components;
+
 /**
  * Class UserSession
  * @property bool isGuest

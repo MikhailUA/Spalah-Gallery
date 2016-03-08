@@ -1,5 +1,8 @@
 <?php
 
+use spalahGallery\models\MySQLDB;
+use spalahGallery\components\Router;
+
 require_once 'vendor/autoload.php';
 
 require_once 'components/Router.php';
